@@ -7,19 +7,19 @@ class Alert(object):
     Example:
         >> bp = bigpanda.Client(api_token='0123479abadsfgab')
         >> alert = bp.alert("warn", "host1", "ping check")
-        >> alert.send()
+        >> await alert.send()
         ...
         >> alert.status = 'crit'
-        >> alert.send()
+        >> await alert.send()
 
         # Create an alert with a custom attribute
         >> custom_alert = bp.alert("crit", "myapp", "app connections", connections=124)
-        >> custom_alert.send()
+        >> await custom_alert.send()
 
         # Update alerts in batch mode
         >> custom_alert.status = 'ack'
         >> alert.status = 'ok'
-        >> bp.send([alert, custom_alert])
+        >> await bp.send([alert, custom_alert])
 
     methods:
     send(): Send alert to server
@@ -98,7 +98,7 @@ class Alert(object):
 
         return payload
 
-    def send(self):
+    async def send(self):
         """
         Send alert object to server. Returns the alert object.
 
@@ -107,7 +107,7 @@ class Alert(object):
         """
         if not self._client:
             raise Exception("No client associated. Use Client.send() instead.")
-        self._client.send(self)
+        await self._client.send(self)
 
         return self
 

@@ -5,12 +5,12 @@ class Deployment(object):
     Example:
         >> bp = bigpanda.Client(api_token='0123479abadsfgab')
         >> deployment = bp.deployment("myapp", "v1.0", "prod-app-4")
-        >> deployment.send() # New deployments are of status 'start' by default
+        >> await deployment.send() # New deployments are of status 'start' by default
         >> try:
         ...
-        >>   deployment.success() # Set .status and calls send()
+        >>   await deployment.success() # Set .status and calls send()
         >> except Exception as e:
-        >>   deployment.failure(e)
+        >>   await deployment.failure(e)
 
     methods:
     send():             Send deployment to server.
@@ -38,7 +38,7 @@ class Deployment(object):
         client:     Client object. Client.deployment() passes this object for you.
         """
         if not isinstance(hosts, list):
-            hosts = [ hosts ]
+            hosts = [hosts, ]
 
         self.component = component
         self.version = version
@@ -52,7 +52,7 @@ class Deployment(object):
 
         self._verify_parameters()
 
-    def send(self):
+    async def send(self):
         """
         Send deployment object to server. Returns the deployment object.
 
@@ -61,8 +61,8 @@ class Deployment(object):
         """
         if not self._client:
             raise Exception("No client associated. Use Client.send() instead.")
-        self._client.send(self)
-        
+        await self._client.send(self)
+
         return self
 
     def start(self):
@@ -102,9 +102,9 @@ class Deployment(object):
     def _build_payload(self):
         self._verify_parameters()
 
-        payload = dict( component=self.component,
-                        version=self.version,
-                        hosts=self.hosts )
+        payload = dict(component=self.component,
+                       version=self.version,
+                       hosts=self.hosts)
 
         if self.status == 'start':
             for attr in 'owner', 'source_system', 'env', 'description':

@@ -6,7 +6,7 @@ Use this module to use the BigPanda API on incidents, deployments etc.
 Example:
 
     >> import bigpanda
-    
+
     # Create a client object. app_key is required for alerts.
     >> bp = bigpanda.Client(api_token="686a68bc876dc666", app_key="aasdasdasd")
 
@@ -14,7 +14,7 @@ Example:
     >> host_alert = bp.alert("warn", "host1", "cpu load")
 
     # Send this alert to BigPanda
-    >> host_alert.send()
+    >> await host_alert.send()
 
     # Create a new app alert
     >> app_alert = bp.alert("crit", "app1", "connections load")
@@ -23,7 +23,7 @@ Example:
     >> host_alert.status = "ack"
 
     # Use the client's send() method to send both alerts in batch mode
-    >> bp.send([host_alert, app_alert])
+    >> await bp.send([host_alert, app_alert])
 
     # Send deployment info
     >> deployment = bp.deployment("myapp", "1.0.0", "prod-app-1", owner="Paul").start()
@@ -31,11 +31,11 @@ Example:
     ...
     deployment code here
     ...
-    >>    deployment.success()
+    >>    await deployment.success()
     >> except Exception as e:
           deployment.failure(str(e))
 
 """
-from client import Client
-from deployment import Deployment
-from alert import Alert
+from .client import Client
+from .deployment import Deployment
+from .alert import Alert
