@@ -6,11 +6,11 @@ Example:
 
     >> import bigpanda
     >> bp = bigpanda.Client(api_token="686a68bc876dc666")
-    >> deployment = bp.deployment("myapp", "1.0.0", "prod-app-1", owner="Paul").start()
+    >> deployment = await bp.deployment("myapp", "1.0.0", "prod-app-1", owner="Paul").start()
     >> try:
     ...
     deployment code here
     ...
-    >>    deployment.success()
+    >>    await deployment.success()
     >> except Exception as e:
-          deployment.failure(str(e))
+          await deployment.failure(str(e))
