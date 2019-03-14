@@ -1,8 +1,8 @@
 import aiohttp
 import os
-import bigpanda.alert as alert
-import bigpanda.config as config
-import bigpanda.deployment as deployment
+import aiobigpanda.alert as alert
+import aiobigpanda.config as config
+import aiobigpanda.deployment as deployment
 
 try:
     import simplejson as json

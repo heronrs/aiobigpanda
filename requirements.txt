@@ -1,4 +1,4 @@
-requests
+aiodns
 aiohttp
 cchardet
-aiodns
+requests

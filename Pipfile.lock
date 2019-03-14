@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "6579baed545434aa45027e7c8178ce251ab160986c4da74d8db5bba6af39c2f9"
+            "sha256": "e87733c2001765642ab012df09727ecdd3dca3164ea86eaa5f3cb8606629cb05"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -16,6 +16,10 @@
         ]
     },
     "default": {
+        "aiobigpanda": {
+            "editable": true,
+            "path": "."
+        },
         "aiodns": {
             "hashes": [
                 "sha256:815fdef4607474295d68da46978a54481dd1e7be153c7d60f9e72773cd38d77d",
