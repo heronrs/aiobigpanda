@@ -1,1 +1,1 @@
-base_url = 'https://api.bigpanda.io'
+base_url = "https://api.bigpanda.io"

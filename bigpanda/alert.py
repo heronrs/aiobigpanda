@@ -1,5 +1,6 @@
 import time
 
+
 class Alert(object):
     """
     BigPanda alert object.
@@ -25,10 +26,22 @@ class Alert(object):
     send(): Send alert to server
     """
 
-    _endpoint = '/data/v2/alerts'
-    _api_statuses = dict(ok='ok', warn='warning', crit='critical', ack='acknowledged')
+    _endpoint = "/data/v2/alerts"
+    _api_statuses = dict(ok="ok", warn="warning", crit="critical", ack="acknowledged")
 
-    def __init__(self, status, subject, check=None, description=None, cluster=None, timestamp=None, primary_attr='host', secondary_attr='check', client=None, **kwargs):
+    def __init__(
+        self,
+        status,
+        subject,
+        check=None,
+        description=None,
+        cluster=None,
+        timestamp=None,
+        primary_attr="host",
+        secondary_attr="check",
+        client=None,
+        **kwargs
+    ):
         """
         Create a new alert.
         status:         Status of alert. One of: ok, warn, crit, ack
@@ -74,7 +87,7 @@ class Alert(object):
         payload["primary_property"] = str(self.primary_attr)
 
         try:
-            payload['status'] = self._api_statuses[self.status]
+            payload["status"] = self._api_statuses[self.status]
         except KeyError:
             raise ValueError("status must be one of: " + ", ".join(self.api_statuses))
 
@@ -83,15 +96,15 @@ class Alert(object):
             payload["secondary_property"] = str(self.secondary_attr)
 
         if self.description:
-            payload['description'] = str(self.description)
+            payload["description"] = str(self.description)
 
         if self.cluster:
-            payload['cluster'] = str(self.cluster)
+            payload["cluster"] = str(self.cluster)
 
         if self.timestamp:
-            payload['timestamp'] = int(self.timestamp)
+            payload["timestamp"] = int(self.timestamp)
         else:
-            payload['timestamp'] = int(time.time())
+            payload["timestamp"] = int(time.time())
 
         for attr, value in self.extra_attrs.items():
             payload[attr] = str(value)

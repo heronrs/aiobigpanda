@@ -21,10 +21,20 @@ class Deployment(object):
     All methods return the deployment object on success.
     """
 
-    _start_endpoint = '/data/events/deployments/start'
-    _end_endpoint = '/data/events/deployments/end'
+    _start_endpoint = "/data/events/deployments/start"
+    _end_endpoint = "/data/events/deployments/end"
 
-    def __init__(self, component, version, hosts, status='start', owner=None, env=None, message=None, client=None):
+    def __init__(
+        self,
+        component,
+        version,
+        hosts,
+        status="start",
+        owner=None,
+        env=None,
+        message=None,
+        client=None,
+    ):
         """
         Create a new deployment.
 
@@ -38,7 +48,7 @@ class Deployment(object):
         client:     Client object. Client.deployment() passes this object for you.
         """
         if not isinstance(hosts, list):
-            hosts = [hosts, ]
+            hosts = [hosts]
 
         self.component = component
         self.version = version
@@ -71,7 +81,7 @@ class Deployment(object):
 
         Equivalent to setting .status to 'start' and calling send().
         """
-        self.status = 'start'
+        self.status = "start"
         return self.send()
 
     def success(self):
@@ -80,7 +90,7 @@ class Deployment(object):
 
         Equivalent to setting .status to 'success' and calling send().
         """
-        self.status = 'success'
+        self.status = "success"
         return self.send()
 
     def failure(self, message=None):
@@ -91,37 +101,35 @@ class Deployment(object):
 
         Equivalent to setting .status to 'failure' and .message, then calling send().
         """
-        self.status = 'failure'
+        self.status = "failure"
         self.message = message
         return self.send()
 
     def _verify_parameters(self):
-        if self.status not in ('start', 'success', 'failure'):
+        if self.status not in ("start", "success", "failure"):
             raise ValueError("status must be one of start, success, failure")
 
     def _build_payload(self):
         self._verify_parameters()
 
-        payload = dict(component=self.component,
-                       version=self.version,
-                       hosts=self.hosts)
+        payload = dict(component=self.component, version=self.version, hosts=self.hosts)
 
-        if self.status == 'start':
-            for attr in 'owner', 'source_system', 'env', 'description':
+        if self.status == "start":
+            for attr in "owner", "source_system", "env", "description":
                 value = getattr(self, attr, None)
                 if value:
                     payload[attr] = value
         else:
-            payload['status'] = self.status
+            payload["status"] = self.status
 
-        if self.status == 'failure' and self.message:
-            payload['errorMessage'] = str(self.message)
+        if self.status == "failure" and self.message:
+            payload["errorMessage"] = str(self.message)
 
         return payload
 
     @property
     def _endpoint(self):
-        if self.status == 'start':
+        if self.status == "start":
             return self._start_endpoint
         else:
             return self._end_endpoint
