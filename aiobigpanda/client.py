@@ -124,10 +124,9 @@ class Client(object):
             "Content-Type": "application/json",
         }
 
-        if self.session is None:
-            self.session = aiohttp.ClientSession(
-                raise_for_status=True, trust_env=os.environ.get("TRUST_ENV")
-            )
+        self.session = aiohttp.ClientSession(
+            raise_for_status=True, trust_env=os.environ.get("TRUST_ENV")
+        )
 
         async with self.session as s:
             if data:
